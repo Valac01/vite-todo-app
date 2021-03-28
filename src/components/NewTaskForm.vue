@@ -22,23 +22,23 @@
 </template>
 
 <script setup>
-import { defineEmit, ref } from 'vue'
+import { ref } from 'vue'
+import { db } from '../firebase'
+
+const taskCollection = db.collection('tasks')
 
 const newTaskField = ref('')
 
-const emit = defineEmit({
-  newTask: (task) => {
-    if (task != '') {
-      return true
-    }
-    console.log('Field is empty')
-    return false
-  },
-})
-
-const handleSubmit = () => {
-  console.log('submit', newTaskField.value)
-  emit('newTask', newTaskField.value)
-  newTaskField.value = ''
+const handleSubmit = async () => {
+  try {
+    taskCollection.add({
+      discription: newTaskField.value,
+      createdAt: Date.now(),
+      complete: false,
+    })
+    newTaskField.value = ''
+  } catch (error) {
+    console.warn(error.message)
+  }
 }
 </script>

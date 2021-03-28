@@ -1,14 +1,15 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAPSwOqS91XvULjjvbCIvTk8BeywkeOgUk',
-  authDomain: 'vue-ocr.firebaseapp.com',
-  databaseURL: 'https://vue-ocr.firebaseio.com',
-  projectId: 'vue-ocr',
-  storageBucket: 'vue-ocr.appspot.com',
-  messagingSenderId: '826831374427',
-  appId: '1:826831374427:web:6e819193fb8dcd4388177e',
-  measurementId: 'G-36KG1KTSSQ',
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_DATABASE_URL,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENSOR_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 }
 
 const firebaseApp = firebase.initializeApp(firebaseConfig)

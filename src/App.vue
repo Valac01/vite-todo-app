@@ -2,13 +2,16 @@
   <div
     class="min-h-screen bg-gradient-to-t from-purple-600 to-purple-400 pt-10 px-4 a-grid"
   >
-    <router-view />
+    <card-container>
+      <router-view />
+    </card-container>
     <app-footer />
   </div>
 </template>
 
 <script setup>
 import AppFooter from './components/AppFooter.vue'
+import CardContainer from './components/CardContainer.vue'
 // This starter template is using Vue 3 experimental <script setup> SFCs
 // Check out https://github.com/vuejs/rfcs/blob/script-setup-2/active-rfcs/0000-script-setup.md
 </script>

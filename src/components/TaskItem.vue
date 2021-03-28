@@ -3,8 +3,9 @@
     <div
       @click="emit('taskComplete')"
       class="text-purple-800 text-lg flex-grow mr-2 cursor-pointer"
+      :class="{ 'line-through': task.complete }"
     >
-      {{ task }}
+      {{ task.discription }}
     </div>
     <button
       @click="emit('taskEdit')"
@@ -42,7 +43,7 @@
 import { defineEmit, defineProps } from 'vue'
 
 defineProps({
-  task: String,
+  task: Object,
 })
 
 const emit = defineEmit(['taskComplete', 'taskEdit', 'taskDelete'])

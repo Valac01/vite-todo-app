@@ -6,9 +6,9 @@
         v-for="task in tasks"
         :key="task"
         :task="task"
-        @task-edit="taskEdit"
-        @task-complete="taskComplete"
-        @task-delete="taskDelete(task)"
+        @task-edit="taskEdit(task.id)"
+        @task-complete="taskComplete(task.id)"
+        @task-delete="taskDelete(task.id)"
       />
     </div>
     <div v-else class="mt-6 flex flex-col-reverse">
@@ -21,30 +21,61 @@
 </template>
 
 <script setup>
-import { defineEmit, defineProps, computed } from '@vue/runtime-core'
+import { computed, ref, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+import { db } from '../firebase'
 import TaskItem from './TaskItem.vue'
 
-const props = defineProps({
-  tasks: Array,
-})
+const taskCollection = db.collection('tasks')
+let listener = null
+
+const router = useRouter()
 
 const isTaskAvailable = computed(() => {
-  if (props.tasks.length === 0) {
+  if (tasks.value.length === 0) {
     return false
   } else {
     return true
   }
 })
 
-const emits = defineEmit(['taskDelete'])
+const tasks = ref([])
 
-const taskComplete = () => {
-  console.log('Complete')
+const unsubscribe = taskCollection
+  .orderBy('createdAt', 'desc')
+  .onSnapshot((snapshot) => {
+    tasks.value = []
+    snapshot.forEach((doc) => {
+      tasks.value.push({
+        id: doc.id,
+        ...doc.data(),
+      })
+    })
+  })
+
+onBeforeUnmount(() => {
+  unsubscribe()
+})
+
+const taskComplete = async (taskId) => {
+  try {
+    await taskCollection.doc(taskId).update({
+      complete: true,
+    })
+  } catch (error) {
+    console.warn(error.message)
+  }
 }
-const taskEdit = () => {
-  console.log('Editing...')
+
+const taskEdit = (taskId) => {
+  router.push(`/edit/${taskId}`)
 }
-const taskDelete = (taskId) => {
-  emits('taskDelete', taskId)
+
+const taskDelete = async (taskId) => {
+  try {
+    await taskCollection.doc(taskId).delete()
+  } catch (error) {
+    console.warn(error.message)
+  }
 }
 </script>
