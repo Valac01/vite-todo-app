@@ -1,7 +1,11 @@
 <template>
   <div>
     <h2 class="text-indigo-900 text-2xl mb-6">Edit task</h2>
-    <form @submit.prevent="handleSubmit">
+    <div v-if="loading" class="mt-6 flex flex-col-reverse">
+      <h3 class="text-gray-400 text-center">Wait for it... Still Loading...</h3>
+      <h4 class="text-gray-400 text-center text-4xl mb-6">ᕕ( ՞ ᗜ ՞ )ᕗ</h4>
+    </div>
+    <form @submit.prevent="handleSubmit" v-else>
       <label for="New Task" class="block">
         <input
           v-model="task.discription"
@@ -53,6 +57,7 @@ const router = useRouter()
 const id = route.params.id
 
 const task = ref({})
+const loading = ref(true)
 
 taskCollection
   .doc(id)
@@ -62,6 +67,7 @@ taskCollection
       id: doc.id,
       ...doc.data(),
     }
+    loading.value = false
   })
   .catch((error) => {
     console.warn(error.message)
