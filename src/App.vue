@@ -1,6 +1,8 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-t from-purple-600 to-purple-400 pt-10 px-4 a-grid">
-    <router-view/>
+  <div
+    class="min-h-screen bg-gradient-to-t from-purple-600 to-purple-400 pt-10 px-4 a-grid"
+  >
+    <router-view />
     <app-footer />
   </div>
 </template>

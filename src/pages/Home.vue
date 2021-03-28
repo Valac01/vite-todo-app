@@ -1,9 +1,9 @@
 <template>
   <card-container>
     <div>
-      <new-task-form @newTask="handleNewTask"/>
-      <hr>
-      <task-list :tasks="state.tasks" @taskDelete="handleDelete"/>
+      <new-task-form @newTask="handleNewTask" />
+      <hr />
+      <task-list :tasks="state.tasks" @taskDelete="handleDelete" />
     </div>
   </card-container>
 </template>
@@ -15,7 +15,7 @@ import NewTaskForm from '../components/NewTaskForm.vue'
 import TaskList from '../components/TaskList.vue'
 
 const state = reactive({
-  tasks: []
+  tasks: [],
 })
 
 const handleNewTask = (task) => {
@@ -24,8 +24,8 @@ const handleNewTask = (task) => {
 
 const handleDelete = (id) => {
   console.log(id)
-  state.tasks.forEach( (task, idx) => {
-    if(task === id) {
+  state.tasks.forEach((task, idx) => {
+    if (task === id) {
       state.tasks.splice(idx, 1)
     }
   })
